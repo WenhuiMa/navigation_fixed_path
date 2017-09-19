@@ -1,0 +1,21 @@
+<launch>
+	
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true" >
+  	<param name="use_sim_time" value="true" />
+    <rosparam file="$(find fubot)/config/fubot/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    
+    <rosparam file="$(find fubot)/config/fubot/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    
+    <rosparam file="$(find fubot)/config/fubot/local_costmap_params.yaml" command="load" />
+    
+    <rosparam file="$(find fubot)/config/fubot/global_costmap_params.yaml" command="load" />
+    
+    <rosparam file="$(find fubot)/config/fubot/base_local_planner_params.yaml" command="load" />
+    
+  </node>
+  
+  <arg name="map" default="my_map.yaml" />
+
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find fubot)/maps/$(arg map)"/>
+  
+</launch>

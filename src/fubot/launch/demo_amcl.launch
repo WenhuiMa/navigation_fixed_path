@@ -1,0 +1,20 @@
+<launch>
+	
+  
+  <arg name="map" default="my_map.yaml" />
+
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find fubot)/maps/$(arg map)"/>
+  
+  <arg name="use_map_topic" default="false"/>
+  <arg name="scan_topic" default="/gazebo/sensor/Laser"/>
+
+  <node pkg="amcl" type="amcl" name="amcl" clear_params="true" output="screen">
+  	<param name="use_sim_time" value="true" />
+   <param name="use_map_topic" value="$(arg use_map_topic)"/>
+   <rosparam file="$(find fubot)/config/fubot/amcl_config.yaml" command="load" />
+    <remap from="scan" to="$(arg scan_topic)"/>
+    
+  </node>
+  
+   <node name="rviz" pkg="rviz" type="rviz"/>
+</launch>
